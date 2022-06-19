@@ -1,0 +1,60 @@
+{
+  "name": "frontend",
+  "version": "0.0.1",
+  "description": "The nursepower frontend",
+  "productName": "NursePower",
+  "author": "Alexandre Girbal",
+  "private": true,
+  "scripts": {
+    "dev": "quasar dev",
+    "build": "quasar build -m pwa",
+    "start": "node server.js",
+    "build:spa": "quasar build",
+    "start:spa": "node server-spa.js",
+    "lint": "eslint --ext .js,.ts,.vue ./",
+    "test": "echo \"No test specified\" && exit 0"
+  },
+  "dependencies": {
+    "@quasar/extras": "^1.12.4",
+    "axios": "^0.21.1",
+    "connect-history-api-fallback": "^1.6.0",
+    "core-js": "^3.6.5",
+    "dotenv": "^14.2.0",
+    "express": "^4.17.2",
+    "moment": "^2.29.1",
+    "pinia": "^2.0.9",
+    "quasar": "^2.4.12",
+    "serve-static": "^1.14.2",
+    "typescript": "^4.4.4",
+    "vue": "3.2.31",
+    "vue-i18n": "^9.0.0",
+    "vue-router": "^4.0.13"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.13.14",
+    "@quasar/app": "^3.0.0",
+    "@types/node": "16.x",
+    "@typescript-eslint/eslint-plugin": "5.x",
+    "@typescript-eslint/parser": "5.x",
+    "eslint": "8.x",
+    "eslint-config-prettier": "8.x",
+    "eslint-plugin-vue": "8.3.x",
+    "workbox-webpack-plugin": "^6.4.2"
+  },
+  "browserslist": [
+    "last 10 Chrome versions",
+    "last 10 Firefox versions",
+    "last 4 Edge versions",
+    "last 7 Safari versions",
+    "last 8 Android versions",
+    "last 8 ChromeAndroid versions",
+    "last 8 FirefoxAndroid versions",
+    "last 10 iOS versions",
+    "last 5 Opera versions"
+  ],
+  "engines": {
+    "node": ">= 12.22.1",
+    "npm": ">= 6.13.4",
+    "yarn": ">= 1.21.1"
+  }
+}

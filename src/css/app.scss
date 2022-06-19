@@ -1,0 +1,19 @@
+// app global css in SCSS form
+#q-app {
+  height: 100vh;
+  box-sizing: border-box;
+  color: $text-dark;
+  overflow-y: hidden;
+  background-color: $background;
+}
+
+.q-btn {
+  transition: all 0.1s ease-in 0s !important;
+  &:hover {
+    transform: scale(1.1);
+  }
+  &:disabled {
+    transform: scale(1);
+    background-color: $disabled !important;
+  }
+}
