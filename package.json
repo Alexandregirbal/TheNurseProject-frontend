@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "quasar dev -m pwa",
     "build": "npx quasar build -m pwa",
-    "start": "node server.js",
+    "start": "node server-pwa.js",
     "dev:spa": "quasar dev",
     "build:spa": "quasar build",
     "start:spa": "node server-spa.js",
