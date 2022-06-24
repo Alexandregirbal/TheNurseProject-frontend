@@ -2,6 +2,20 @@ import axios, { AxiosInstance } from 'axios';
 import { boot } from 'quasar/wrappers';
 import LocalStorageKeys from 'src/localStorage/keys';
 
+const selectAPIURL = (nodeEnv: string) => {
+  console.log('setting up API URL with env:' + nodeEnv);
+  switch (nodeEnv) {
+    case 'development':
+      return `http://localhost:${process.env.PORT_BACKEND || 5000}`;
+
+    case 'production':
+      return 'https://nurse-backend.herokuapp.com/';
+
+    default:
+      throw new Error(`NODE_ENV value is wrong: ${nodeEnv}`);
+  }
+};
+
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
     $axios: AxiosInstance;
@@ -16,10 +30,7 @@ declare module '@vue/runtime-core' {
 // for each client)
 
 const api = axios.create({
-  baseURL:
-    process.env.NODE_ENV === 'development'
-      ? `http://localhost:${process.env.PORT_BACKEND || 5000}/`
-      : 'https://api.production.com',
+  baseURL: selectAPIURL(process.env.NODE_ENV),
 });
 const token = window.localStorage.getItem(LocalStorageKeys.token);
 if (token) {
