@@ -21,7 +21,7 @@ import { useUserStore } from 'src/stores/user/user.store';
 import { Utils } from 'src/utils/utils';
 import { useI18n } from 'vue-i18n';
 const i18n = useI18n({ useScope: 'global' });
-const emit = defineEmits(['evClose']);
+// const emit = defineEmits(['evClose']);
 const userStore = useUserStore();
 
 interface Field {

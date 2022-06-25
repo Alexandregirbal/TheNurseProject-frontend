@@ -37,7 +37,6 @@
 </template>
 <script lang="ts" setup>
 import { Round } from 'src/interfaces/entities/round';
-import { ref } from 'vue';
 interface ManageRoundsProps {
   rounds: Partial<Round>[];
 }
@@ -46,9 +45,6 @@ const emit = defineEmits(['evSelected', 'evBack', 'evAddRoundClick']);
 const props = withDefaults(defineProps<ManageRoundsProps>(), {
   rounds: () => [],
 });
-
-const isNewRoundVisible = ref(false);
-const newRoundName = ref('');
 
 const onRoundClicked = (round: Partial<Round>) => {
   emit('evSelected', round);

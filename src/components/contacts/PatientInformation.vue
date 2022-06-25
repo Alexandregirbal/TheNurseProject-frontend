@@ -58,13 +58,12 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { Patient } from 'src/interfaces/entities/patient';
 import * as moment from 'moment';
-import { useI18n } from 'vue-i18n';
+import { date, openURL } from 'quasar';
+import { Patient } from 'src/interfaces/entities/patient';
 import { Utils } from 'src/utils/utils';
-import { openURL } from 'quasar';
-import { computed, Ref, ref, toRef, toRefs } from 'vue';
-import { date } from 'quasar';
+import { toRefs } from 'vue';
+import { useI18n } from 'vue-i18n';
 const i18n = useI18n({ useScope: 'global' });
 const emit = defineEmits(['evClose', 'evEdit', 'evDelete']);
 

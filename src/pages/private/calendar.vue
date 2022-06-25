@@ -250,9 +250,9 @@ const onNewAppointment = async (event: {
     timeStart,
     timeEnd,
     date,
-    roundSelected,
-    frequence,
-    days,
+    // roundSelected,
+    // frequence,
+    // days,
   } = event;
 
   if (typeSelected === AppointmentType.SINGLE) {

@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, watchEffect } from 'vue';
+import { ref, watch } from 'vue';
 
 interface InputTimeProps {
   value: string;
@@ -46,10 +46,6 @@ const model = ref(props.value);
 const onChange = () => {
   emit('evChange', model.value);
 };
-
-// watchEffect(() => {
-//   model.value = props.value;
-// });
 
 watch(props, (newProps) => {
   model.value = newProps.value;

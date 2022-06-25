@@ -36,11 +36,9 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { useUserStore } from 'src/stores/user/user.store';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 const i18n = useI18n({ useScope: 'global' });
-const userStore = useUserStore();
 
 const emit = defineEmits(['evSubmit', 'evCancel']);
 

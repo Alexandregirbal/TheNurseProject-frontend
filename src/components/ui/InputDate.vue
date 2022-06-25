@@ -48,8 +48,6 @@ const props = withDefaults(defineProps<InputTimeProps>(), {
 
 const model = ref(props.default);
 
-const error = false;
-
 const onChange = () => {
   emit('evChange', model.value);
 };
