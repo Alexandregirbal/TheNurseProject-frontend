@@ -7,6 +7,7 @@
       class="card q-my-sm all-pointers-event"
       @click="onClickContact(contact)"
     >
+      Hello handsome
       <div class="section">
         <div>
           <q-btn
@@ -27,7 +28,7 @@
 <script lang="ts" setup>
 import { ContactType } from 'src/interfaces/contacts';
 import { Patient } from 'src/interfaces/entities/patient';
-import { ComputedRef, computed } from 'vue';
+import { computed, ComputedRef } from 'vue';
 
 const emit = defineEmits(['evContactOpened']);
 
