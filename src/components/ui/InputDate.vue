@@ -15,16 +15,11 @@
           transition-show="scale"
           transition-hide="scale"
         >
-          <q-date v-model="model">
-            <div class="row items-center justify-end">
-              <q-btn
-                v-close-popup
-                label="Close"
-                color="primary"
-                flat
-                @click="onChange"
-              />
-            </div>
+          <q-date
+            today-btn
+            v-model="model"
+            @update:model-value="$refs.qDateProxy.hide()"
+          >
           </q-date>
         </q-popup-proxy>
       </q-icon>

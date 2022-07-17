@@ -44,6 +44,20 @@
           label="Tournée"
         />
       </div>
+      <div class="div-time" v-if="isTypeRecurrent">
+        <input-date
+          class="input-time"
+          :default="dateStart"
+          label="Date Start"
+          @ev-change="onChangeDateStart"
+        />
+        <input-date
+          class="input-time"
+          :default="dateEnd"
+          label="Date End"
+          @ev-change="onChangeDateEnd"
+        />
+      </div>
       <div class="div-time">
         <input-time
           class="input-time"
@@ -64,7 +78,7 @@
           outlined
           multiple
           v-model="days"
-          :options="roundsOption"
+          :options="daysOption"
           label="Jours"
         />
       </div>
@@ -73,7 +87,7 @@
           dense
           outlined
           v-model="frequence"
-          :options="roundsOption"
+          :options="frequenceOption"
           label="Fréquence"
         />
       </div>
@@ -104,7 +118,7 @@ interface CreateAppointmentProps {
   patients: Partial<Patient>[];
 }
 
-const emit = defineEmits(['evSubmit', 'evCancel']);
+const emit = defineEmits(['evSubmitSingle', 'evSubmitRecurrent', 'evCancel']);
 const props = withDefaults(defineProps<CreateAppointmentProps>(), {
   rounds: () => [],
   patients: () => [],
@@ -118,8 +132,23 @@ const patientsOption = computed(() =>
 );
 
 const roundsOption = computed(() =>
-  props.rounds.map((round) => `${round.name}`)
+  props.rounds.map((round) => ({
+    label: `${round.name}`,
+    value: round._id,
+  }))
 );
+
+const daysList = ['Lundi', 'Mardi'];
+const daysOption = daysList.map((day, index) => ({
+  label: day,
+  value: index,
+}));
+
+const frequenceList = ['Toutes les semaine', 'Toutes les 2 semaines'];
+const frequenceOption = frequenceList.map((frequence, index) => ({
+  label: frequence,
+  value: index,
+}));
 
 enum AppointmentType {
   SINGLE = 'SINGLE',
@@ -131,6 +160,8 @@ const typeSelected = ref(AppointmentType.SINGLE);
 const timeStart = ref(null);
 const timeEnd = ref(null);
 const date = ref(null);
+const dateStart = ref(null);
+const dateEnd = ref(null);
 const roundSelected = ref(null);
 const frequence = ref(null);
 const days = ref(null);
@@ -164,17 +195,43 @@ const onChangeDate = (dateNew: string) => {
   date.value = dateNew;
 };
 
+const onChangeDateStart = (dateNew: string) => {
+  dateStart.value = dateNew;
+};
+
+const onChangeDateEnd = (dateNew: string) => {
+  dateEnd.value = dateNew;
+};
+
 const onSubmit = () => {
-  emit('evSubmit', {
+  if (typeSelected?.value === AppointmentType.SINGLE) {
+    onSubmitSingle();
+  }
+
+  if (typeSelected?.value === AppointmentType.RECURRENT) {
+    onSubmitRecurrent();
+  }
+};
+const onSubmitSingle = () => {
+  emit('evSubmitSingle', {
     patientSelected: patientSelected?.value.value,
     details: details?.value,
-    typeSelected: typeSelected?.value,
     timeStart: timeStart?.value,
     timeEnd: timeEnd?.value,
     date: date?.value,
-    roundSelected: roundSelected?.value,
-    frequence: frequence?.value,
-    days: days?.value,
+  });
+};
+const onSubmitRecurrent = () => {
+  emit('evSubmitRecurrent', {
+    patientSelected: patientSelected?.value.value,
+    details: details?.value,
+    timeStart: timeStart?.value,
+    timeEnd: timeEnd?.value,
+    dateStart: dateStart?.value,
+    dateEnd: dateEnd?.value,
+    roundSelected: roundSelected?.value.value,
+    frequence: frequence?.value?.value,
+    days: days?.value.map((day) => day.value),
   });
 };
 const onCancel = () => {

@@ -39,7 +39,8 @@
       <create-appointment
         :rounds="mockRounds"
         :patients="patients"
-        @ev-submit="onNewAppointment"
+        @ev-submit-single="onNewAppointmentSingle"
+        @ev-submit-recurrent="onNewAppointmentRecurrent"
         @ev-cancel="onCloseCreateAppointmentClicked"
         @ev-withdraw-assignment="onWithdrawAssignment"
       />
@@ -51,6 +52,7 @@
 import { AppointmentService } from 'src/api/appointment.service';
 import { PatientService } from 'src/api/patient.service';
 import { RoundService } from 'src/api/round.service';
+import { ScheduledService } from 'src/api/scheduled.service';
 import CreateAppointment from 'src/components/calendar/CreateAppointment.vue';
 import { Patient } from 'src/interfaces/entities/patient';
 import { Round } from 'src/interfaces/entities/round';
@@ -227,45 +229,61 @@ const onCloseCreateAppointmentClicked = () => {
   displayCreateAppointmentModal.value = false;
 };
 
-const onNewAppointment = async (event: {
+const onNewAppointmentRecurrent = async (event: {
   patientSelected: Partial<Patient>;
   details: string;
-  typeSelected: string;
   timeStart: string;
   timeEnd: string;
-  date: string;
   roundSelected: Partial<Round>;
   frequence: string;
-  days: string;
+  days: string[];
+  dateStart: string;
+  dateEnd: string;
 }) => {
-  enum AppointmentType {
-    SINGLE = 'SINGLE',
-    RECURRENT = 'RECURRENT',
-  }
-
   const {
     patientSelected,
     details,
-    typeSelected,
     timeStart,
     timeEnd,
-    date,
-    // roundSelected,
-    // frequence,
-    // days,
+    roundSelected,
+    frequence,
+    days,
+    dateStart,
+    dateEnd,
   } = event;
 
-  if (typeSelected === AppointmentType.SINGLE) {
-    console.log(patientSelected);
+  const weekDays = days.map((day) => ({
+    day,
+    schedules: { startTime: timeStart, endTime: timeEnd },
+  }));
 
-    await AppointmentService.createOne(useUserStore().getMe, {
-      patientId: patientSelected,
-      date,
-      details,
-      timeStart,
-      timeEnd,
-    });
-  }
+  await ScheduledService.createOne({
+    patient: patientSelected,
+    round: roundSelected,
+    details,
+    dateStart,
+    dateEnd,
+    weekDays,
+    frequence,
+  });
+  displayCreateAppointmentModal.value = false;
+};
+
+const onNewAppointmentSingle = async (event: {
+  patientSelected: Partial<Patient>;
+  details: string;
+  timeStart: string;
+  timeEnd: string;
+  date: string;
+}) => {
+  const { patientSelected, details, timeStart, timeEnd, date } = event;
+  await AppointmentService.createOne(useUserStore().getMe, {
+    patientId: patientSelected,
+    date,
+    details,
+    timeStart,
+    timeEnd,
+  });
   displayCreateAppointmentModal.value = false;
 };
 
@@ -274,8 +292,11 @@ const onNewAppointment = async (event: {
 /* -------------------------------------------------------------------------- */
 
 const mockRounds = ref([
-  { _id: '1', name: 'Montpellier Sud Le soleil les nanas' },
-  { _id: '2', name: 'Montpellier Nord' },
+  {
+    _id: '628a804c5c065ac15053bca1',
+    name: 'Montpellier Sud Le soleil les nanas',
+  },
+  { _id: '628a804c5c065ac15053bca2', name: 'Montpellier Nord' },
 ]);
 
 const mockUsers: Partial<User>[] = [
