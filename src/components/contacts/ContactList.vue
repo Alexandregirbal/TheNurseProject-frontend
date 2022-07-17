@@ -7,7 +7,6 @@
       class="card q-my-sm all-pointers-event"
       @click="onClickContact(contact)"
     >
-      Hello handsome
       <div class="section">
         <div>
           <q-btn
